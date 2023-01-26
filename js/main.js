@@ -44,6 +44,7 @@ searchShadowEl.addEventListener('click', hideSearch)
 
 function showSearch() {
   headerEl.classList.add('searching')
+  stopScroll()
   document.documentElement.classList.add('fixed')
   headerMenuEls.reverse().forEach(function (el, index) {
     el.style.transitionDelay = index * .4 / headerMenuEls.length + 's'
@@ -56,6 +57,7 @@ function showSearch() {
 
 function hideSearch() {
   headerEl.classList.remove('searching')
+  playScroll()
   document.documentElement.classList.remove('fixed')
   headerMenuEls.reverse().forEach(function (el, index) {
     el.style.transitionDelay = index * .4 / headerMenuEls.length + 's'
@@ -66,6 +68,26 @@ function hideSearch() {
   searchDelaysEls.reverse()
   searchInputEl.value = ''
 }
+
+function playScroll() {
+  // documentElement is <html>
+  document.documentElement.classList.remove('fixed')
+}
+function stopScroll() {
+  document.documentElement.classList.add('fixed')
+}
+
+// 헤더 메뉴 토글! [모바일]
+const menuStarterEl = document.querySelector('header .menu-starter')
+menuStarterEl.addEventListener('click', () => {
+  if (headerEl.classList.contains('menuing')) {
+    headerEl.classList.remove('menuing')
+    playScroll()
+  } else {
+    headerEl.classList.add('menuing')
+    stopScroll()
+  }
+})
 
 // 요소의 가시성 관찰
 const io = new IntersectionObserver(function (entries) {
